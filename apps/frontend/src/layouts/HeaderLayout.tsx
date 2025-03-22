@@ -11,7 +11,7 @@ export default function Header() {
     <header className="flex items-center justify-between">
       <MainLabel text="MB" className="block lg:hidden" to="/" />
       <MainLabel text="MemoryByte" className="hidden lg:block" to="/" />
-      <Input placeholder="Wyszukaj" className="hidden lg:block" />
+      <Input placeholder="Wyszukaj" className="hidden lg:block w-xl" />
 
       <div className="flex items-center gap-7">
         <Button>
