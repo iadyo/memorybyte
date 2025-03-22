@@ -13,14 +13,14 @@ export default function Header() {
       <MainLabel text="MemoryByte" className="hidden lg:block" to="/" />
       <Input placeholder="Wyszukaj" className="hidden lg:block w-xl" />
 
-      <div className="flex items-center gap-7">
-        <Button>
+      <nav className="flex items-center gap-7">
+        <Button onClick={() => navigate("/create")}>
           Stwórz <FiPlus className="inline" />
         </Button>
         <Button color="purple" onClick={() => navigate("/login")}>
           Zaloguj się
         </Button>
-      </div>
+      </nav>
     </header>
   );
 }
