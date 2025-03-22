@@ -10,7 +10,7 @@ function Button({
   className?: string;
   children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  const baseStyles = "font-bold rounded-2xl p-2 w-auto px-4";
+  const baseStyles = "font-bold rounded-2xl p-2 w-auto px-4 cursor-pointer";
   const colorStyles = {
     black: clsx(baseStyles, "bg-black text-white hover:bg-gray-900"),
     purple: clsx(
