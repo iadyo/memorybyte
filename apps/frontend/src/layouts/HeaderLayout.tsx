@@ -9,11 +9,11 @@ export default function Header() {
 
   return (
     <header className="flex items-center justify-between">
-      <MainLabel text="MB" className="block md:hidden" to="/" />
-      <MainLabel text="MemoryByte" className="hidden md:block" to="/" />
-      <Input placeholder="Wyszukaj" className="hidden md:block" />
+      <MainLabel text="MB" className="block lg:hidden" to="/" />
+      <MainLabel text="MemoryByte" className="hidden lg:block" to="/" />
+      <Input placeholder="Wyszukaj" className="hidden lg:block" />
 
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-7">
         <Button>
           Stwórz <FiPlus className="inline" />
         </Button>
