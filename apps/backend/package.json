@@ -1,0 +1,7 @@
+{
+    "name": "backend",
+    "scripts": {
+        "dev": "cargo run --release",
+        "build": "cargo build"
+    }
+}
