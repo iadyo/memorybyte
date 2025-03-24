@@ -4,20 +4,5 @@
         "source": "/:path*",
         "destination": "/index.html"
       }
-    ],
-    "builds": [
-      {
-        "src": "apps/backend/src/main.rs",
-        "use": "@vercel/rust",
-        "config": {
-          "outputDirectory": "target/release" 
-        }
-      }
-    ],
-    "routes": [
-      {
-        "src": "/apps/backend/src/main.rs",
-        "dest": "/apps/backend/src/main.rs"
-      }
     ]
 }
