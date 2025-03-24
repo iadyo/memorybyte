@@ -1,5 +1,7 @@
+import { FiArrowRight } from "react-icons/fi";
 import Button from "../components/Button";
 import Header from "../layouts/HeaderLayout";
+import Footer from "../layouts/FooterLayout";
 
 function Home() {
   return (
@@ -22,9 +24,12 @@ function Home() {
         </p>
 
         <Button color="black" className="mt-5" onClick={() => {}}>
-          Zacznij naukę!
+          Zacznij naukę{" "}
+          <FiArrowRight className="text-xl inline text-gray-300" />
         </Button>
       </main>
+
+      <Footer />
     </>
   );
 }

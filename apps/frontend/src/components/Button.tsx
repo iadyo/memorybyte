@@ -12,13 +12,16 @@ function Button({
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const baseStyles = "font-bold rounded-2xl p-2 w-auto px-4 cursor-pointer";
   const colorStyles = {
-    black: clsx(baseStyles, "bg-black text-white hover:bg-gray-900"),
+    black: clsx(
+      baseStyles,
+      "bg-black text-white hover:bg-gray-800 transition-color duration-300",
+    ),
     purple: clsx(
       baseStyles,
-      "bg-purple-500 text-white hover:bg-purple-600 hover:transition-color duration-300",
+      "bg-purple-500 text-white hover:bg-purple-600 transition-color duration-300",
     ),
     transparent:
-      "bg-transparent text-purple-500 hover:text-purple-600 hover:transition-color duration-300",
+      "bg-transparent text-purple-500 hover:text-purple-600 transition-color duration-300",
   };
 
   return (
