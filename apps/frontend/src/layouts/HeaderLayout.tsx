@@ -33,9 +33,9 @@ export default function Header() {
       <nav className="flex items-center gap-7">
         <Button onClick={() => toggleDarkMode((prev) => !prev)}>
           {darkMode ? (
-            <FaSun className="text-xl" />
+            <FaSun className="text-xl cursor-pointer" />
           ) : (
-            <FaMoon className="text-xl" />
+            <FaMoon className="text-xl cursor-pointer" />
           )}
         </Button>
         <Button onClick={() => navigate("/create")}>
