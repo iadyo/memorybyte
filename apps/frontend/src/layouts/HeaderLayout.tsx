@@ -24,7 +24,7 @@ export default function Header() {
         <Button
           color="black"
           className="absolute h-full right-0"
-          onClick={() => alert("you are nigger")}
+          onClick={() => alert("you are a nigger")}
         >
           <FiSearch />
         </Button>

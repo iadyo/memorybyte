@@ -7,7 +7,7 @@ function Box({
   className: string;
   children: React.ReactNode;
 }) {
-  const baseStyles = "mt-10 p-5 bg-white rounded-xl";
+  const baseStyles = "p-5 bg-white rounded-xl";
   return <section className={clsx(baseStyles, className)}>{children}</section>;
 }
 

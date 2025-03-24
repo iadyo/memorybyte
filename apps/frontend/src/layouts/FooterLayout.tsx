@@ -1,54 +1,52 @@
+import { FaDiscord, FaGithub, FaInstagram, FaYoutube } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
 export default function Footer() {
   const navigate = useNavigate();
 
-  const sections = [
-    {
-      title: "Menu",
-      links: [
-        { name: "Eksploruj", path: "/explore" },
-        { name: "FAQ", path: "/faq" },
-        { name: "Wsparcie", path: "/support" },
-        { name: "Regulamin", path: "/rules" },
-      ],
-    },
-    {
-      title: "Projekt",
-      links: [
-        { name: "Współpraca", path: "/partnership" },
-        { name: "Polityka prywatności", path: "/privacy" },
-      ],
-    },
-    {
-      title: "MemoryByte",
-      links: [
-        { name: "Nasza historia", path: "/history" },
-        { name: "Nasza misja", path: "/mission" },
-      ],
-    },
-  ];
-
   return (
-    <footer className="flex flex-wrap p-15 bg-white space-x-15 lg:space-x-10 space-y-5 text-sm lg:text-base dark:bg-gray-700 dark:text-white">
-      {sections.map((section, index) => (
-        <div key={index} className="w-1/4 space-y-2">
-          <h2 className="font-bold">{section.title}</h2>
-          <ul>
-            {section.links.map((link, idx) => (
-              <li
-                key={idx}
-                className="cursor-pointer hover:text-purple-500 transition-colors duration-300"
-                onClick={() => navigate(link.path)}
-              >
-                {link.name}
-              </li>
-            ))}
+    <footer className="flex flex-wrap bg-white dark:bg-gray-700 dark:text-white p-13">
+      <div className="w-full lg:w-1/2">
+        <h2 className="font-bold text-xl">MemoryByte</h2>
+        <p>&copy;2025 MemoryByte</p>
+
+        <div className="flex space-x-3 mt-3">
+          <a href="#" target="_blank" rel="noreferrer">
+            <FaYoutube />
+          </a>
+          <a href="#" target="_blank" rel="noreferrer">
+            <FaDiscord />
+          </a>
+          <a href="#" target="_blank" rel="noreferrer">
+            <FaInstagram />
+          </a>
+          <a href="#" target="_blank" rel="noreferrer">
+            <FaGithub />
+          </a>
+        </div>
+
+        <hr className="w-full border-t border-gray-200 dark:border-gray-600 my-5" />
+      </div>
+
+      <div className="w-full lg:w-1/2 flex flex-wrap lg:flex-nowrap justify-evenly lg:text-right">
+        <div className="w-full lg:w-1/4 space-y-3">
+          <h2 className="font-bold text-2xl">Nawigacja</h2>
+          <ul className="text-gray-600 dark:text-gray-300 cursor-pointer">
+            <li onClick={() => navigate("#")}>Lorem ipsum1</li>
+            <li onClick={() => navigate("#")}>Lorem ipsum2</li>
+            <li onClick={() => navigate("#")}>Lorem ipsum3</li>
+            <li onClick={() => navigate("#")}>Lorem ipsum4</li>
           </ul>
         </div>
-      ))}
-      <hr className="w-full border-t border-gray-200 my-5" />
-      <span>&copy;2025 MemoryByte</span>
+        <div className="w-full lg:w-1/4 space-y-3 mt-5 lg:mt-0">
+          <h2 className="font-bold text-2xl">Inne gówna</h2>
+          <ul className="text-gray-600 dark:text-gray-300 cursor-pointer">
+            <li onClick={() => navigate("#")}>Lorem ipsum1</li>
+            <li onClick={() => navigate("#")}>Lorem ipsum2</li>
+            <li onClick={() => navigate("#")}>Lorem ipsum3</li>
+          </ul>
+        </div>
+      </div>
     </footer>
   );
 }
