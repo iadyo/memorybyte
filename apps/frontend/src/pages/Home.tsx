@@ -21,7 +21,9 @@ function Home() {
           interaktywnych fiszek, przykładowych testów i innych aktywności.
         </p>
 
-        <Button color="black" className="mt-5" onClick={() => {}}>Zacznij naukę!</Button>
+        <Button color="black" className="mt-5" onClick={() => {}}>
+          Zacznij naukę!
+        </Button>
       </main>
     </>
   );

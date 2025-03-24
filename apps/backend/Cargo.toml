@@ -6,9 +6,15 @@ edition = "2024"
 [dependencies]
 actix-cors = "0.7.1"
 actix-web = "4.10.2"
+diesel = { version = "2.2.8", features = ["postgres"] }
+dotenvy = "0.15.7"
 serde = "1.0.219"
 serde_json = "1.0.140"
 
+# Buduj sobie wersję produkcyjną poprzez
+# cargo run --release jak tu jesteś
+# albo po prostu turbo run dev, któ©y już to robi.
+# Szybciej Ci to buduje i optymalizuje
 [profile.release]
 lto = "thin"
 opt-level = 3

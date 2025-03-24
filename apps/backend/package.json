@@ -2,6 +2,7 @@
     "name": "backend",
     "scripts": {
         "dev": "cargo run --release",
-        "build": "cargo build"
+        "build": "cargo build --release",
+        "format-all": "cargo fmt --all"
     }
 }

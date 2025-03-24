@@ -1,0 +1,26 @@
+name: Format frontend and backend code
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Node.js dependencies
+      run: npm ci
+    
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rustfmt
+      
+    - name: Format code
+      run: npx turbo run format-all
+

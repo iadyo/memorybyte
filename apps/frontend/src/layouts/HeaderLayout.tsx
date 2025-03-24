@@ -14,7 +14,13 @@ export default function Header() {
 
       <div className="hidden lg:relative lg:flex lg:items-center">
         <Input placeholder="Szukaj fiszek" className="block w-xl" id="search" />
-        <Button color="black" className="absolute h-full right-0" onClick={() => alert("you are nigger")}><FiSearch /></Button>
+        <Button
+          color="black"
+          className="absolute h-full right-0"
+          onClick={() => alert("you are nigger")}
+        >
+          <FiSearch />
+        </Button>
       </div>
 
       <nav className="flex items-center gap-7">

@@ -1,10 +1,13 @@
 {
-  "name": "test-turborepo",
+  "name": "memorybyte",
+  "version": "0.0.1",
+
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "format-all": "turbo run format",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
