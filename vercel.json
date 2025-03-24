@@ -4,5 +4,11 @@
         "source": "/:path*",
         "destination": "/index.html"
       }
+    ],
+    "builds": [
+      {
+        "src": "apps/backend/src/main.rs",
+        "use": "@vercel/rust"
+      }
     ]
 }
