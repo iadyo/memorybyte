@@ -14,7 +14,7 @@ function Button({
   const colorStyles = {
     black: clsx(
       baseStyles,
-      "bg-black text-white hover:bg-gray-800 transition-color duration-300",
+      "bg-black dark:bg-purple-500 text-white hover:bg-gray-800 dark:hover:bg-purple-600 transition-color duration-300",
     ),
     purple: clsx(
       baseStyles,

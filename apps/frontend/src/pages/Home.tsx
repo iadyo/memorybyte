@@ -6,7 +6,7 @@ import Footer from "../layouts/FooterLayout";
 function Home() {
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-700">
         <div className="hidden lg:flex lg:items-center lg:justify-center lg:bg-purple-500 lg:h-10 lg:w-full lg:text-white">
           <p>Witamy na początku naszej strony! NiggersTeam</p>
         </div>
@@ -14,7 +14,7 @@ function Home() {
           <Header />
         </div>
       </div>
-      <main className="flex flex-col items-center justify-center h-80">
+      <main className="flex flex-col items-center justify-center h-80 dark:bg-gray-600 dark:text-white">
         <h2 className="text-3xl text-center lg:text-4xl font-semibold">
           Let's learn english words together!
         </h2>

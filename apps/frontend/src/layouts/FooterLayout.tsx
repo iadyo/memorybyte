@@ -30,7 +30,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="flex flex-wrap p-15 bg-white space-x-18 lg:space-x-10 space-y-5 text-sm lg:text-base">
+    <footer className="flex flex-wrap p-15 bg-white space-x-18 lg:space-x-10 space-y-5 text-sm lg:text-base dark:bg-gray-700 dark:text-white">
       {sections.map((section, index) => (
         <div key={index} className="w-1/4 space-y-2">
           <h2 className="font-bold">{section.title}</h2>
