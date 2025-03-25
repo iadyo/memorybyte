@@ -21,6 +21,7 @@ export default function Header() {
         <Button
           color="black"
           className="absolute h-full right-0"
+          aria-label="Search flashcards"
           onClick={() => alert("you are a nigger")}
         >
           <FiSearch />
