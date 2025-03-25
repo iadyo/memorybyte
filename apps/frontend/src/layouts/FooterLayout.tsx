@@ -68,7 +68,7 @@ export default function Footer() {
         <span className="text-sm">
           &copy; 2025 MemoryByte. Wszelkie prawa zastrzeżone.
         </span>
-        <button onClick={() => toggleDarkMode((prev) => !prev)}>
+        <button aria-label="Enable or disable dark mode" onClick={() => toggleDarkMode((prev) => !prev)}>
           {darkMode ? (
             <FaSun className="cursor-pointer" />
           ) : (
