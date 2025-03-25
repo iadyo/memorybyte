@@ -13,6 +13,8 @@ export default function Footer() {
   const [darkMode, toggleDarkMode] = useDarkMode();
   const navigate = useNavigate();
 
+  const liStyle = "hover:text-gray-900 dark:hover:text-gray-200";
+
   return (
     <footer className="flex flex-wrap bg-white dark:bg-gray-700 dark:text-white p-13">
       <div className="w-full lg:w-1/2">
@@ -22,16 +24,16 @@ export default function Footer() {
         </p>
 
         <div className="flex space-x-3 mt-3 text-xl">
-          <a href="#" target="_blank" rel="noreferrer">
+          <a href="#" target="_blank" rel="noreferrer" aria-label="Zobacz nasze filmiki na YouTube">
             <FaYoutube />
           </a>
-          <a href="#" target="_blank" rel="noreferrer">
+          <a href="#" target="_blank" rel="noreferrer" aria-label="Porozmawiaj z ludźmi">
             <FaDiscord />
           </a>
-          <a href="#" target="_blank" rel="noreferrer">
+          <a href="#" target="_blank" rel="noreferrer" aria-label="Zobacz nasze zdjęcia na IG">
             <FaInstagram />
           </a>
-          <a href="#" target="_blank" rel="noreferrer">
+          <a href="#" target="_blank" rel="noreferrer" aria-label="Spójrz na nasz projekt!">
             <FaGithub />
           </a>
         </div>
@@ -41,23 +43,23 @@ export default function Footer() {
         <div className="w-full lg:w-1/3 space-y-3">
           <h2 className="font-semibold uppercase tracking-wider">Nawigacja</h2>
           <ul className="text-gray-600 dark:text-gray-300 cursor-pointer space-y-2">
-            <li onClick={() => navigate("#")}>Strona główna</li>
-            <li onClick={() => navigate("#")}>Fiszki</li>
-            <li onClick={() => navigate("#")}>Testy</li>
+            <li className={liStyle} onClick={() => navigate("#")}>Strona główna</li>
+            <li className={liStyle} onClick={() => navigate("#")}>Fiszki</li>
+            <li className={liStyle} onClick={() => navigate("#")}>Testy</li>
           </ul>
         </div>
         <div className="w-full lg:w-1/3 space-y-3 mt-5 lg:mt-0">
           <h2 className="font-semibold uppercase tracking-wider">Informacje</h2>
           <ul className="text-gray-600 dark:text-gray-300 cursor-pointer space-y-2">
-            <li onClick={() => navigate("#")}>Polityka prywatności</li>
-            <li onClick={() => navigate("#")}>Kontakt</li>
+            <li className={liStyle} onClick={() => navigate("#")}>Polityka prywatności</li>
+            <li className={liStyle} onClick={() => navigate("#")}>Kontakt</li>
           </ul>
         </div>
         <div className="w-full lg:w-1/3 space-y-3 mt-5 lg:mt-0">
           <h2 className="font-semibold uppercase tracking-wider">Konto</h2>
           <ul className="text-gray-600 dark:text-gray-300 cursor-pointer space-y-2">
-            <li onClick={() => navigate("#")}>Logowanie</li>
-            <li onClick={() => navigate("#")}>Rejestracja</li>
+            <li className={liStyle} onClick={() => navigate("#")}>Logowanie</li>
+            <li className={liStyle} onClick={() => navigate("#")}>Rejestracja</li>
           </ul>
         </div>
       </div>
