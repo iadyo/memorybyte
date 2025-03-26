@@ -2,8 +2,8 @@
 # see https://diesel.rs/guides/configuring-diesel-cli
 
 [print_schema]
-file = "apps/backend/src/diesel_mod/schema.rs"
+file = "src/schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 
 [migrations_directory]
-dir = "/run/media/verifiedfemboy/Disk/programming/react_x_rust/memorybyte/apps/backend/migrations"
+dir = "/home/verifiedfemboy/Documents/react_x_rust/memorybyte/apps/backend/migrations"
