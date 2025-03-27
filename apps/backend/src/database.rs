@@ -1,17 +1,17 @@
 use std::env;
 use diesel::r2d2::{self, Pool};
-use diesel::{PgConnection, RunQueryDsl};
+use diesel::{SqliteConnection, RunQueryDsl};
 use dotenvy::dotenv;
 
 use crate::diesel_schema::models::User;
 use crate::diesel_schema::schema::users;
 
-pub type DBPool = Pool<diesel::r2d2::ConnectionManager<PgConnection>>;
+pub type DBPool = Pool<diesel::r2d2::ConnectionManager<SqliteConnection>>;
 
 pub async fn establish_pool() -> DBPool {
     dotenv().ok();
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let manager = diesel::r2d2::ConnectionManager::<PgConnection>::new(database_url);
+    let manager = diesel::r2d2::ConnectionManager::<SqliteConnection>::new(database_url);
     let pool = r2d2::Pool::builder()
         .build(manager).expect("Failed to create pool");
 
@@ -19,8 +19,8 @@ pub async fn establish_pool() -> DBPool {
 }
 
 pub async fn insert_user(
-    connection: &mut PgConnection, 
-    username: &str, 
+    connection: &mut SqliteConnection, 
+    username: &str,
     password: &str,
 ) -> Result<(), diesel::result::Error> {
     use crate::diesel_schema::models::NewUser;
@@ -43,7 +43,7 @@ pub async fn insert_user(
 }
 
 pub async fn select_users(
-    connection: &mut PgConnection
+    connection: &mut SqliteConnection
 ) -> Vec<User> {
     let results = users::table.load::<User>(connection).expect("Error loading users");
     results

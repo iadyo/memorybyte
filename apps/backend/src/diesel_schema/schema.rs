@@ -2,11 +2,9 @@
 
 diesel::table! {
     users (id) {
-        id -> Int4,
-        #[max_length = 255]
-        username -> Varchar,
-        #[max_length = 255]
-        password -> Varchar,
-        created_at -> Int8,
+        id -> Integer,
+        username -> Text,
+        password -> Text,
+        created_at -> BigInt,
     }
 }
