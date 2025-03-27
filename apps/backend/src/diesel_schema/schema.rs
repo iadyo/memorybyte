@@ -7,6 +7,6 @@ diesel::table! {
         username -> Varchar,
         #[max_length = 255]
         password -> Varchar,
-        created_at -> Nullable<Int8>,
+        created_at -> Int4,
     }
 }

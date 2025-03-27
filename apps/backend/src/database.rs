@@ -6,7 +6,6 @@ use dotenvy::dotenv;
 use crate::diesel_schema::models::User;
 use crate::diesel_schema::schema::users;
 
-
 pub type DBPool = Pool<diesel::r2d2::ConnectionManager<PgConnection>>;
 
 pub async fn establish_pool() -> DBPool {
