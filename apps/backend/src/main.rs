@@ -1,6 +1,6 @@
 use actix_cors::Cors;
-use actix_web::{App, HttpServer, Responder, get, http::header};
-use database::establish_connection;
+use actix_web::{get, http::header, web::Data, App, HttpServer, Responder};
+use database::establish_pool;
 use routes::user_routes;
 
 mod database;
@@ -14,9 +14,9 @@ async fn get_categories() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let connection = &mut establish_connection(); //TODO: make clone connection for App Data
-
-    HttpServer::new(|| {
+    let pool = establish_pool().await; // Aby móc mieć connection pool do App Data, ponieważ samemgo connection nie zclonujemy
+    
+    HttpServer::new(move || {
         let cors = Cors::default()
             .allowed_origin("http://localhost:5173")
             .allowed_methods(["GET", "POST", "DELETE"])
@@ -24,6 +24,7 @@ async fn main() -> std::io::Result<()> {
             .max_age(3600);
 
         App::new().wrap(cors)
+        .app_data(Data::new(pool.clone()))
         .service(get_categories)
         .service(user_routes::create_user)
     })

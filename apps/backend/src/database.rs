@@ -1,13 +1,19 @@
 use std::env;
 
-use diesel_async::{AsyncConnection, AsyncPgConnection, RunQueryDsl};
+use diesel::query_dsl::methods::SelectDsl;
+use diesel_async::pooled_connection::AsyncDieselConnectionManager;
+use diesel_async::pooled_connection::bb8::Pool;
+use diesel_async::{AsyncPgConnection, RunQueryDsl};
 use dotenvy::dotenv;
 
-pub async fn establish_connection() -> AsyncPgConnection {
+pub type DBPool = Pool<AsyncPgConnection>;
+
+pub async fn establish_pool() -> DBPool {
     dotenv().ok();
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    AsyncPgConnection::establish(&database_url)
-    .await.expect("Connection failed")
+    let config = AsyncDieselConnectionManager::<AsyncPgConnection>::new(&database_url);
+    let pool: Pool<AsyncPgConnection> = Pool::builder().build(config).await.expect("Failed to create pool");
+    pool
 }
 
 pub async fn insert_user(
@@ -15,7 +21,7 @@ pub async fn insert_user(
     username: &str, 
     password: &str, 
     email: &str
-) {
+) -> Result<(), diesel::result::Error> {
     use crate::diesel_schema::models::NewUser;
     use crate::diesel_schema::schema::users;
 
@@ -25,10 +31,12 @@ pub async fn insert_user(
         email,
     };
 
-    diesel::insert_into(users::table)
+    // Insert the new user into the database
+    match diesel::insert_into(users::table)
         .values(&new_user)
         .execute(connection)
-        .await.expect("Failed to insert a new user");
-
-    println!("User saved successfully");
+        .await {
+            Ok(_) => Ok(()),
+            Err(e) => Err(e),
+        }
 }
