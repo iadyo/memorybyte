@@ -31,6 +31,7 @@ async fn main() -> std::io::Result<()> {
         .app_data(Data::new(pool.clone()))
         .service(get_categories)
         .service(user_routes::create_user)
+        .service(user_routes::get_users)
     })
     .bind("127.0.0.1:8000")?
     .run()

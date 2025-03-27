@@ -3,11 +3,10 @@
 diesel::table! {
     users (id) {
         id -> Int4,
-        #[max_length = 50]
+        #[max_length = 255]
         username -> Varchar,
-        #[max_length = 50]
+        #[max_length = 255]
         password -> Varchar,
-        #[max_length = 50]
-        email -> Varchar,
+        created_at -> Int8,
     }
 }

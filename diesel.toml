@@ -6,4 +6,4 @@ file = "apps/backend/src/diesel_schema/schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 
 [migrations_directory]
-dir = "/home/verifiedfemboy/Documents/react_x_rust/memorybyte/apps/backend/migrations"
+dir = "/run/media/verifiedfemboy/Disk/programming/react_x_rust/memorybyte/apps/backend/migrations"

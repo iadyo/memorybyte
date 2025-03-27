@@ -7,7 +7,6 @@ use crate::{database::{self, DBPool}, FAILED_CONNECTION_POOL};
 struct NewUserJson {
     username: String,
     password: String,
-    email: String,
 }
 
 #[post("/api/users/create")]
@@ -18,9 +17,8 @@ pub async fn create_user(pool: web::Data<DBPool>, json: Json<NewUserJson>) -> Ht
     
     let username = &json.username;
     let password = &json.password;
-    let email = &json.email;
 
-    if let Err(e) = database::insert_user(&mut connection, username, password, email).await {
+    if let Err(e) = database::insert_user(&mut connection, username, password).await {
         eprintln!("Error inserting user: {}", e);
         return HttpResponse::InternalServerError().body("Failed to create user");
     }

@@ -22,8 +22,7 @@ pub async fn establish_pool() -> DBPool {
 pub async fn insert_user(
     connection: &mut PgConnection, 
     username: &str, 
-    password: &str, 
-    email: &str
+    password: &str,
 ) -> Result<(), diesel::result::Error> {
     use crate::diesel_schema::models::NewUser;
     use crate::diesel_schema::schema::users;
@@ -31,7 +30,6 @@ pub async fn insert_user(
     let new_user = NewUser {
         username,
         password,
-        email,
     };
 
     // Insert the new user into the database
