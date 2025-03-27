@@ -34,11 +34,7 @@ pub async fn get_users(pool: web::Data<DBPool>) -> HttpResponse {
 
     let result_users = database::select_users(&mut connection).await;
 
-    match serde_json::to_string(&result_users) {
-        Ok(json) => HttpResponse::Ok().body(json),
-        Err(e) => {
-            eprintln!("Error serializing users: {}", e);
-            HttpResponse::InternalServerError().body("Failed to serialize users")
-        }
-    }
+    let json = serde_json::to_string_pretty(&result_users).unwrap();
+
+    HttpResponse::Ok().body(json)
 }
