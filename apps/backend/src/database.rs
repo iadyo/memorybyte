@@ -29,6 +29,7 @@ pub async fn insert_user(
     let new_user = NewUser {
         username,
         password,
+        created_at: &chrono::Utc::now().timestamp(),
     };
 
     // Insert the new user into the database
