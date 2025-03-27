@@ -1,50 +1,16 @@
-use std::env;
-use diesel::r2d2::{self, Pool};
-use diesel::{SqliteConnection, RunQueryDsl};
-use dotenvy::dotenv;
+use sqlx::MySqlPool;
 
-use crate::diesel_schema::models::User;
-use crate::diesel_schema::schema::users;
+pub async fn create_tables(pool: &MySqlPool) -> Result<(), sqlx::Error> {
+    sqlx::query(
+        "CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            username TEXT NOT NULL,
+            password TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )",
+    )
+    .execute(pool)
+    .await?;
 
-pub type DBPool = Pool<diesel::r2d2::ConnectionManager<SqliteConnection>>;
-
-pub async fn establish_pool() -> DBPool {
-    dotenv().ok();
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let manager = diesel::r2d2::ConnectionManager::<SqliteConnection>::new(database_url);
-    let pool = r2d2::Pool::builder()
-        .build(manager).expect("Failed to create pool");
-
-    pool
-}
-
-pub async fn insert_user(
-    connection: &mut SqliteConnection, 
-    username: &str,
-    password: &str,
-) -> Result<(), diesel::result::Error> {
-    use crate::diesel_schema::models::NewUser;
-    use crate::diesel_schema::schema::users;
-
-    let new_user = NewUser {
-        username,
-        password,
-        created_at: &chrono::Utc::now().timestamp(),
-    };
-
-    // Insert the new user into the database
-    match diesel::insert_into(users::table)
-        .values(&new_user)
-        .execute(connection)
-        {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e),
-        }
-}
-
-pub async fn select_users(
-    connection: &mut SqliteConnection
-) -> Vec<User> {
-    let results = users::table.load::<User>(connection).expect("Error loading users");
-    results
+    Ok(())
 }

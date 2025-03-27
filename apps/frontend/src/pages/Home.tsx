@@ -9,7 +9,7 @@ function Home() {
     <>
       <div className="bg-white dark:bg-gray-700">
         <div className="hidden lg:flex lg:items-center lg:justify-center lg:bg-purple-500 lg:h-10 lg:w-full lg:text-white">
-          <p>Witamy na początku naszej strony! NiggersTeam</p>
+          <p>Witamy na początku naszej strony!</p>
         </div>
         <div className="container mx-auto p-5">
           <Header />

@@ -68,6 +68,7 @@ export default function Footer() {
         <span className="text-sm">
           &copy; 2025 MemoryByte. Wszelkie prawa zastrzeżone.
         </span>
+        <span className="text-sm hidden">Inspiracja footerem kolegi croqch (bardzo ladny miales hjeheh)</span>
         <button aria-label="Enable or disable dark mode" onClick={() => toggleDarkMode((prev) => !prev)}>
           {darkMode ? (
             <FaSun className="cursor-pointer" />

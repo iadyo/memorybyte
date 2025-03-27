@@ -1,39 +1,39 @@
 use actix_cors::Cors;
-use actix_web::{get, http::header, web::Data, App, HttpServer, Responder};
-use database::establish_pool;
-use routes::user_routes;
+use actix_web::{App, HttpServer, http::header, web::Data};
+use dotenvy::dotenv;
+use sqlx::MySqlPool;
+use std::env;
 
 mod database;
-mod diesel_schema;
-mod routes;
-
-const FAILED_CONNECTION_POOL: &str = "Failed to get connection from pool";
-
-#[get("/api/categories")]
-async fn get_categories() -> impl Responder {
-    "Hello, categories!"
-}
+mod models;
 
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    let pool = establish_pool().await; // Aby móc mieć connection pool do App Data, ponieważ samemgo connection nie zclonujemy
-    println!("Connection pool created successfully");
+async fn main() -> Result<(), std::io::Error> {
+    let env = dotenv().ok();
+
+    if env.is_none() {
+        panic!("Failed to load .env file");
+    }
+
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let pool = MySqlPool::connect(&database_url)
+        .await
+        .expect("Failed to connect to database");
+
+    if let Err(e) = database::create_tables(&pool).await {
+        panic!("Failed to create tables: {:?}", e);
+    }
 
     HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin("http://localhost:5173")
+            .allowed_origin("localhost:5137")
             .allowed_methods(["GET", "POST", "DELETE"])
-            .allowed_headers([header::CONTENT_TYPE, header::AUTHORIZATION])
+            .allowed_headers([header::AUTHORIZATION, header::CONTENT_TYPE])
             .max_age(3600);
 
-        App::new()
-        .wrap(cors)
-        .app_data(Data::new(pool.clone()))
-        .service(get_categories)
-        .service(user_routes::create_user)
-        .service(user_routes::get_users)
+        App::new().app_data(Data::new(pool.clone())).wrap(cors)
     })
-    .bind("127.0.0.1:8000")?
+    .bind("127.0.0.1:8080")?
     .run()
     .await
 }
