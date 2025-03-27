@@ -1,22 +1,26 @@
 use std::env;
-use diesel_async::pooled_connection::AsyncDieselConnectionManager;
-use diesel_async::pooled_connection::bb8::Pool;
-use diesel_async::{AsyncPgConnection, RunQueryDsl};
+use diesel::r2d2::{self, Pool};
+use diesel::{PgConnection, RunQueryDsl};
 use dotenvy::dotenv;
 
+use crate::diesel_schema::models::User;
+use crate::diesel_schema::schema::users;
 
-pub type DBPool = Pool<AsyncPgConnection>;
+
+pub type DBPool = Pool<diesel::r2d2::ConnectionManager<PgConnection>>;
 
 pub async fn establish_pool() -> DBPool {
     dotenv().ok();
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let config = AsyncDieselConnectionManager::<AsyncPgConnection>::new(&database_url);
-    let pool: Pool<AsyncPgConnection> = Pool::builder().build(config).await.expect("Failed to create pool");
+    let manager = diesel::r2d2::ConnectionManager::<PgConnection>::new(database_url);
+    let pool = r2d2::Pool::builder()
+        .build(manager).expect("Failed to create pool");
+
     pool
 }
 
 pub async fn insert_user(
-    connection: &mut AsyncPgConnection, 
+    connection: &mut PgConnection, 
     username: &str, 
     password: &str, 
     email: &str
@@ -34,22 +38,16 @@ pub async fn insert_user(
     match diesel::insert_into(users::table)
         .values(&new_user)
         .execute(connection)
-        .await {
+        {
             Ok(_) => Ok(()),
             Err(e) => Err(e),
         }
 }
 
 //     JAPIERDOLE POPIERDOLI MNEI TUTAJ KURWA MAĆ JAK TO JEBANE GÓWNO ZROBIĆ JUZ MNIE KREW ZALEJE
-// pub async fn select_users(
-//     connection: &mut AsyncPgConnection
-// ) -> Vec<User> {
-//     use crate::diesel_schema::schema::users::dsl::*;
-
-//     let results = users
-//         .load::<User>(connection)
-//         .await
-//         .expect("Error loading users");
-
-//     results
-// }
+pub async fn select_users(
+    connection: &mut PgConnection
+) -> Vec<User> {
+    let results = users::table.load::<User>(connection).expect("Error loading users");
+    results
+}

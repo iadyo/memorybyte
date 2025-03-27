@@ -14,7 +14,6 @@ struct NewUserJson {
 pub async fn create_user(pool: web::Data<DBPool>, json: Json<NewUserJson>) -> HttpResponse {
     let mut connection = pool
         .get()
-        .await
         .expect("Failed to get connection from pool");
     
     let username = &json.username;
