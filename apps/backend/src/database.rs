@@ -1,10 +1,9 @@
 use std::env;
-
-use diesel::query_dsl::methods::SelectDsl;
 use diesel_async::pooled_connection::AsyncDieselConnectionManager;
 use diesel_async::pooled_connection::bb8::Pool;
 use diesel_async::{AsyncPgConnection, RunQueryDsl};
 use dotenvy::dotenv;
+
 
 pub type DBPool = Pool<AsyncPgConnection>;
 
@@ -40,3 +39,17 @@ pub async fn insert_user(
             Err(e) => Err(e),
         }
 }
+
+//     JAPIERDOLE POPIERDOLI MNEI TUTAJ KURWA MAĆ JAK TO JEBANE GÓWNO ZROBIĆ JUZ MNIE KREW ZALEJE
+// pub async fn select_users(
+//     connection: &mut AsyncPgConnection
+// ) -> Vec<User> {
+//     use crate::diesel_schema::schema::users::dsl::*;
+
+//     let results = users
+//         .load::<User>(connection)
+//         .await
+//         .expect("Error loading users");
+
+//     results
+// }

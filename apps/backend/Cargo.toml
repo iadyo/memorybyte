@@ -8,9 +8,9 @@ version.workspace = true
 actix-cors = "0.7.1"
 actix-web = "4.10.2"
 diesel = { version = "2.2.8", features = ["postgres"] }
-diesel-async = {version = "0.5.2", features = ["postgres", "bb8"]}
+diesel-async = {version = "0.5.2", features = ["postgres", "bb8", "async-connection-wrapper"]}
 dotenvy = "0.15.7"
-serde = "1.0.219"
+serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
 
 # Buduj sobie wersję produkcyjną poprzez

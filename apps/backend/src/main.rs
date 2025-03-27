@@ -24,7 +24,8 @@ async fn main() -> std::io::Result<()> {
             .allowed_headers([header::CONTENT_TYPE, header::AUTHORIZATION])
             .max_age(3600);
 
-        App::new().wrap(cors)
+        App::new()
+        .wrap(cors)
         .app_data(Data::new(pool.clone()))
         .service(get_categories)
         .service(user_routes::create_user)

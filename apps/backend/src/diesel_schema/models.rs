@@ -1,12 +1,14 @@
 use std::time::SystemTime;
 
+
 use diesel::{prelude::{Insertable, Queryable}, Selectable};
+
 
 use crate::diesel_schema::schema::users;
 
 // This struct represents a row in the `users` table.
 // The `Queryable` trait is used to convert a row in the `users` table to a `User` struct.
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, PartialEq, Debug)]
 #[diesel(table_name = users)]
 pub struct User {
     pub id: i32,
