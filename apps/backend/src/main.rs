@@ -15,7 +15,8 @@ async fn get_categories() -> impl Responder {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let pool = establish_pool().await; // Aby móc mieć connection pool do App Data, ponieważ samemgo connection nie zclonujemy
-    
+    println!("Connection pool created successfully");
+
     HttpServer::new(move || {
         let cors = Cors::default()
             .allowed_origin("http://localhost:5173")
