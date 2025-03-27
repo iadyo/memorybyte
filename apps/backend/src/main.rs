@@ -7,6 +7,8 @@ mod database;
 mod diesel_schema;
 mod routes;
 
+const FAILED_CONNECTION_POOL: &str = "Failed to get connection from pool";
+
 #[get("/api/categories")]
 async fn get_categories() -> impl Responder {
     "Hello, categories!"

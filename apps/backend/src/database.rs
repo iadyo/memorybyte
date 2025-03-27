@@ -44,7 +44,6 @@ pub async fn insert_user(
         }
 }
 
-//     JAPIERDOLE POPIERDOLI MNEI TUTAJ KURWA MAĆ JAK TO JEBANE GÓWNO ZROBIĆ JUZ MNIE KREW ZALEJE
 pub async fn select_users(
     connection: &mut PgConnection
 ) -> Vec<User> {
