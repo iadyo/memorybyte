@@ -1,7 +1,7 @@
 use actix_cors::Cors;
 use actix_web::{App, HttpServer, http::header, web::Data};
 use dotenvy::dotenv;
-use routes::create_user;
+use routes::{create_user, delete_user, get_users};
 use sqlx::MySqlPool;
 use std::env;
 
@@ -37,6 +37,8 @@ async fn main() -> Result<(), std::io::Error> {
         .app_data(Data::new(pool.clone()))
         .wrap(cors)
         .service(create_user)
+        .service(delete_user)
+        .service(get_users)
     })
     .bind("127.0.0.1:8080")?
     .run()
