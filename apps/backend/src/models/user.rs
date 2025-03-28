@@ -1,6 +1,8 @@
-#[allow(dead_code)]
-pub struct User<'a> {
-    username: Option<&'a str>,
-    password: Option<&'a str>,
-    created_at: Option<i64>,
+use serde::Serialize;
+
+#[derive(Serialize)]
+pub struct User {
+    pub username: String,
+    pub password: String,
+    pub created_at: i64,
 }

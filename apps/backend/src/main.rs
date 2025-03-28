@@ -1,11 +1,13 @@
 use actix_cors::Cors;
 use actix_web::{App, HttpServer, http::header, web::Data};
 use dotenvy::dotenv;
+use routes::create_user;
 use sqlx::MySqlPool;
 use std::env;
 
 mod database;
 mod models;
+mod routes;
 
 #[actix_web::main]
 async fn main() -> Result<(), std::io::Error> {
@@ -31,7 +33,10 @@ async fn main() -> Result<(), std::io::Error> {
             .allowed_headers([header::AUTHORIZATION, header::CONTENT_TYPE])
             .max_age(3600);
 
-        App::new().app_data(Data::new(pool.clone())).wrap(cors)
+        App::new()
+        .app_data(Data::new(pool.clone()))
+        .wrap(cors)
+        .service(create_user)
     })
     .bind("127.0.0.1:8080")?
     .run()
