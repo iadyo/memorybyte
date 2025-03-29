@@ -39,3 +39,5 @@ yarn-error.log*
 target/
 **/*.rs.bk
 Cargo.lock
+
+.vscode/
