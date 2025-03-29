@@ -1,4 +1,7 @@
-use actix_web::{get, post, web::{self, Json}, HttpResponse};
+use actix_web::{
+    HttpResponse, get, post,
+    web::{self, Json},
+};
 use serde::Deserialize;
 use sqlx::MySqlPool;
 
@@ -57,5 +60,4 @@ pub async fn delete_user(pool: web::Data<MySqlPool>, json: Json<UserInput>) -> H
             HttpResponse::InternalServerError().finish()
         }
     }
-    
 }

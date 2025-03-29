@@ -4,7 +4,7 @@ use sqlx::Row;
 use crate::models::user::User;
 
 pub async fn create_tables(pool: &MySqlPool) -> Result<(), sqlx::Error> {
-    sqlx::query(
+    match sqlx::query(
         "CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTO_INCREMENT,
             username TEXT NOT NULL,
@@ -13,12 +13,61 @@ pub async fn create_tables(pool: &MySqlPool) -> Result<(), sqlx::Error> {
         )",
     )
     .execute(pool)
-    .await?;
+    .await
+    {
+        Ok(_) => println!("Users table created successfully"),
+        Err(e) => {
+            eprintln!("Error creating users table: {:?}", e);
+            return Err(e);
+        }
+    };
+
+    match sqlx::query(
+        "CREATE TABLE IF NOT EXISTS categories (
+            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            name TEXT NOT NULL,
+            description TEXT,
+            created_at BIGINT,
+            updated_at BIGINT,
+            user_id FOREIGN KEY REFERENCES users(id)
+        )",
+    )
+    .execute(pool)
+    .await
+    {
+        Ok(_) => println!("Categories table created successfully"),
+        Err(e) => {
+            eprintln!("Error creating categories table: {:?}", e);
+            return Err(e);
+        }
+    };
+
+    match sqlx::query(
+        "CREATE TABLE IF NOT EXISTS flipcards (
+            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            first_side TEXT NOT NULL,
+            second_side TEXT NOT NULL,
+            category_id FOREIGN KEY REFERENCES categories(id),
+        )",
+    )
+    .execute(pool)
+    .await
+    {
+        Ok(_) => println!("Flipcards table created successfully"),
+        Err(e) => {
+            eprintln!("Error creating flipcards table: {:?}", e);
+            return Err(e);
+        }
+    };
 
     Ok(())
 }
 
-pub async fn create_user(pool: &MySqlPool, username: &str, password: &str) -> Result<User, sqlx::Error> {
+pub async fn create_user(
+    pool: &MySqlPool,
+    username: &str,
+    password: &str,
+) -> Result<User, sqlx::Error> {
     //TODO: Hash the password before storing it
 
     let time_ms = chrono::Utc::now().timestamp_millis();
@@ -51,11 +100,13 @@ pub async fn select_users(pool: &MySqlPool, filter: Filter) -> Result<Vec<User>,
     let query = match filter {
         Filter::ALL => sqlx::query("SELECT * FROM users"),
         Filter::ID(id) => sqlx::query("SELECT * FROM users WHERE id = ?").bind(id),
-        Filter::USERNAME(username) => sqlx::query("SELECT * FROM users WHERE username = ?").bind(username),
+        Filter::USERNAME(username) => {
+            sqlx::query("SELECT * FROM users WHERE username = ?").bind(username)
+        }
     };
 
     let results = query.fetch_all(pool).await?;
-    
+
     let mut users = Vec::new();
     for row in results {
         let id: i32 = row.get("id");
@@ -63,9 +114,13 @@ pub async fn select_users(pool: &MySqlPool, filter: Filter) -> Result<Vec<User>,
         let password: String = row.get("password");
         let created_at: i64 = row.get("created_at");
 
-        users.push(User{ id, username, password, created_at});
+        users.push(User {
+            id,
+            username,
+            password,
+            created_at,
+        });
     }
-    
 
     Ok(users)
 }

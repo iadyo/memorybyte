@@ -34,11 +34,11 @@ async fn main() -> Result<(), std::io::Error> {
             .max_age(3600);
 
         App::new()
-        .app_data(Data::new(pool.clone()))
-        .wrap(cors)
-        .service(create_user)
-        .service(delete_user)
-        .service(get_users)
+            .app_data(Data::new(pool.clone()))
+            .wrap(cors)
+            .service(create_user)
+            .service(delete_user)
+            .service(get_users)
     })
     .bind("127.0.0.1:8080")?
     .run()
