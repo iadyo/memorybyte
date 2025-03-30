@@ -7,5 +7,5 @@ pub struct Category {
     pub description: String,
     pub created_at: i64,
     pub updated_at: i64,
-    pub creator_id: i32,
+    pub user_id: i32,
 }
