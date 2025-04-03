@@ -1,0 +1,9 @@
+POST http://127.0.0.1:8080/api/users/create HTTP/1.1
+Host: 127.0.0.1:8080
+Content-Type: application/json
+
+{
+    "email": "iamadyoo@gmail.com",
+    "username": "iadyo",
+    "password": "SecurePassword123"
+}

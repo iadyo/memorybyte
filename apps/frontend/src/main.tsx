@@ -6,7 +6,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoSite from "./pages/NoSite";
 
-createRoot(document.getElementById("main")!).render(
+const mainElement = document.getElementById("main");
+if (!mainElement) {
+  throw new Error("Main element not found");
+}
+createRoot(mainElement).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
