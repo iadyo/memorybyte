@@ -14,7 +14,7 @@ pub struct UserInput {
     pub password: Option<String>,
 }
 
-#[post("/api/users/create")]
+#[post("users/create")]
 pub async fn create_user(pool: web::Data<MySqlPool>, json: Json<UserInput>) -> HttpResponse {
     if json.username.is_none() || json.password.is_none() {
         return HttpResponse::BadRequest().finish();
