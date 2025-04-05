@@ -1,6 +1,5 @@
 use actix_web::{
-    HttpResponse, post,
-    web::{self, Json},
+    get, post, web::{self, Json}, HttpResponse
 };
 use serde::Deserialize;
 use sqlx::MySqlPool;
@@ -28,6 +27,18 @@ pub async fn create_user(pool: web::Data<MySqlPool>, json: Json<UserInput>) -> H
         Ok(user) => HttpResponse::Created().json(user),
         Err(e) => {
             eprintln!("Error creating user: {:?}", e);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
+}
+
+#[get("users")]
+pub async fn get_users(pool: web::Data<MySqlPool>) -> HttpResponse {
+    let users = User::get_all_users(&pool).await;
+    match users {
+        Ok(users) => HttpResponse::Ok().json(users),
+        Err(e) => {
+            eprintln!("Error fetching users: {:?}", e);
             HttpResponse::InternalServerError().finish()
         }
     }

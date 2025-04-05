@@ -33,7 +33,7 @@ async fn main() -> Result<(), std::io::Error> {
             // .allowed_headers([header::AUTHORIZATION, header::CONTENT_TYPE]);
 
         App::new().app_data(Data::new(pool.clone())).wrap(cors)
-        .service(scope("/api").service(routes::create_user)
+        .service(scope("/api").service(routes::create_user).service(routes::get_users)
         )
     })
     .bind("127.0.0.1:8080")?
