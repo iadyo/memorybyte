@@ -1,10 +1,11 @@
 use actix_web::{
-    get, post, web::{self, Json}, HttpResponse
+    HttpResponse, delete, get, post,
+    web::{self, Json},
 };
 use serde::Deserialize;
 use sqlx::MySqlPool;
 
-use crate::models::user::User;
+use crate::models::user::{DeleteingFilter, User};
 
 #[derive(Deserialize)]
 pub struct UserInput {
@@ -41,5 +42,15 @@ pub async fn get_users(pool: web::Data<MySqlPool>) -> HttpResponse {
             eprintln!("Error fetching users: {:?}", e);
             HttpResponse::InternalServerError().finish()
         }
+    }
+}
+
+#[delete("user")]
+pub async fn delete_user(pool: web::Data<MySqlPool>) -> HttpResponse {
+    let result = User::delete_user(&pool, DeleteingFilter::ById(1)).await;
+
+    match result {
+        Ok(_) => HttpResponse::Accepted().body("success"),
+        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }

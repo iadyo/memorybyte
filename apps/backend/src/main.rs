@@ -1,5 +1,8 @@
 use actix_cors::Cors;
-use actix_web::{web::{scope, Data}, App, HttpServer};
+use actix_web::{
+    App, HttpServer,
+    web::{Data, scope},
+};
 use dotenvy::dotenv;
 use sqlx::MySqlPool;
 use std::env;
@@ -30,11 +33,17 @@ async fn main() -> Result<(), std::io::Error> {
             .allow_any_origin()
             .allowed_methods(["GET", "POST", "DELETE"])
             .allow_any_header();
-            // .allowed_headers([header::AUTHORIZATION, header::CONTENT_TYPE]);
+        // .allowed_headers([header::AUTHORIZATION, header::CONTENT_TYPE]);
 
-        App::new().app_data(Data::new(pool.clone())).wrap(cors)
-        .service(scope("/api").service(routes::create_user).service(routes::get_users)
-        )
+        App::new()
+            .app_data(Data::new(pool.clone()))
+            .wrap(cors)
+            .service(
+                scope("/api")
+                    .service(routes::create_user)
+                    .service(routes::get_users)
+                    .service(routes::delete_user)
+            )
     })
     .bind("127.0.0.1:8080")?
     .run()

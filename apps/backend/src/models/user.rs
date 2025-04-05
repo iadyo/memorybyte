@@ -50,10 +50,36 @@ impl User {
         })
     }
 
+    pub async fn delete_user(pool: &MySqlPool, filter: DeleteingFilter) -> Result<(), sqlx::Error> {
+        match filter {
+            DeleteingFilter::ById(id) => {
+                sqlx::query("DELETE FROM users WHERE id = ?")
+                    .bind(id)
+                    .execute(pool)
+                    .await?;
+                return Ok(());
+            }
+            // DeleteingFilter::ByUsername(username) => {
+            //     sqlx::query("DELETE FROM users WHERE username = ?")
+            //         .bind(username)
+            //         .execute(pool)
+            //         .await?;
+
+            //     return Ok(());
+            // }
+            // DeleteingFilter::ByEmail(email) => {
+            //     sqlx::query("DELETE FROM users WHERE email = ?")
+            //         .bind(email)
+            //         .execute(pool)
+            //         .await?;
+
+            //     return Ok(());
+            // }
+        }
+    }
+
     // I think there is no possible way to return as references like str even I would like to use lifetime but SQLx doesn't support the lifetime
-    pub async fn get_all_users(
-        pool: &MySqlPool,
-    ) -> Result<Vec<(i32, String)>, sqlx::Error> {
+    pub async fn get_all_users(pool: &MySqlPool) -> Result<Vec<(i32, String)>, sqlx::Error> {
         let rows = sqlx::query("SELECT id, username, created_at FROM users")
             .fetch_all(pool)
             .await?;
@@ -68,4 +94,10 @@ impl User {
 
         Ok(users)
     }
+}
+
+pub enum DeleteingFilter {
+    ById(i32),
+    // ByUsername(String),
+    // ByEmail(String),
 }
