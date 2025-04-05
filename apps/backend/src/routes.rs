@@ -45,9 +45,11 @@ pub async fn get_users(pool: web::Data<MySqlPool>) -> HttpResponse {
     }
 }
 
-#[delete("user")]
-pub async fn delete_user(pool: web::Data<MySqlPool>) -> HttpResponse {
-    let result = User::delete_user(&pool, DeleteingFilter::ById(1)).await;
+
+#[delete("user/{id}")] //TODO: make it more secure by authorization
+pub async fn delete_user(pool: web::Data<MySqlPool>, id: web::Path<i32>) -> HttpResponse {
+    let id = id.into_inner();
+    let result = User::delete_user(&pool, DeleteingFilter::ById(id)).await;
 
     match result {
         Ok(_) => HttpResponse::Accepted().body("success"),
