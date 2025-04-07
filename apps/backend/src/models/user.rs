@@ -28,7 +28,7 @@ impl User {
         let salt = SaltString::generate(&mut OsRng);
         let argon2 = Argon2::default();
         let mut output = [0u8; 32];
-
+        
         argon2
             .hash_password_into(password.as_bytes(), salt.as_ref().as_bytes(), &mut output)
             .expect("Failed to hash password");
@@ -46,7 +46,7 @@ impl User {
             email: email.to_string(),
             username: username.to_string(),
             password: password_hash,
-            created_at: 0,
+            created_at: chrono::Utc::now().timestamp_millis(),
         })
     }
 

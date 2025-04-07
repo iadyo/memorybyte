@@ -5,7 +5,7 @@ use actix_web::{
 use serde::Deserialize;
 use sqlx::MySqlPool;
 
-use crate::models::user::{DeleteingFilter, User};
+use crate::models::{category::Category, user::{DeleteingFilter, User}};
 
 #[derive(Deserialize)]
 pub struct UserInput {
@@ -54,5 +54,28 @@ pub async fn delete_user(pool: web::Data<MySqlPool>, id: web::Path<i32>) -> Http
     match result {
         Ok(_) => HttpResponse::Accepted().body("success"),
         Err(_) => HttpResponse::InternalServerError().finish(),
+    }
+}
+
+#[derive(Deserialize)]
+struct CategoryInput {
+    pub name: String,
+    pub description: String,
+    pub creator_id: i32,
+}
+
+#[post("categories/create")]
+pub async fn create_category(pool: web::Data<MySqlPool>, json: Json<CategoryInput>) -> HttpResponse {
+    let name = &json.name;
+    let description = &json.description;
+    let creator_id = json.creator_id;
+
+    let category = Category::create_category(&pool, name, description, creator_id).await;
+    match category {
+        Ok(category) => HttpResponse::Created().json(category),
+        Err(e) => {
+            eprintln!("Error creating category: {:?}", e);
+            HttpResponse::InternalServerError().finish()
+        }
     }
 }
