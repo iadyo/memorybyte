@@ -5,7 +5,7 @@ use actix_web::{
 use serde::Deserialize;
 use sqlx::MySqlPool;
 
-use crate::models::{category::Category, user::{DeleteingFilter, User}};
+use crate::models::{category::Category, flipcard::FlipCard, user::{DeleteingFilter, User}};
 
 #[derive(Deserialize)]
 pub struct UserInput {
@@ -57,6 +57,30 @@ pub async fn delete_user(pool: web::Data<MySqlPool>, id: web::Path<i32>) -> Http
     }
 }
 
+
+#[derive(Deserialize)]
+struct FlipCardInput {
+    pub first_side: String,
+    pub second_side: String,
+    pub category_id: i32,
+}
+
+#[post("flipcards/create")]
+pub async fn create_flipcard(pool: web::Data<MySqlPool>, json: Json<FlipCardInput>) -> HttpResponse {
+    let first_side = &json.first_side;
+    let second_side = &json.second_side;
+    let category_id = json.category_id;
+    
+    let flipcard = FlipCard::create_flipcard(&pool, first_side, second_side, category_id).await;
+    match flipcard {
+        Ok(flipcard) => HttpResponse::Created().json(flipcard),
+        Err(e) => {
+            eprintln!("Error creating flipcard: {:?}", e);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
+}
+
 #[derive(Deserialize)]
 struct CategoryInput {
     pub name: String,
@@ -75,6 +99,18 @@ pub async fn create_category(pool: web::Data<MySqlPool>, json: Json<CategoryInpu
         Ok(category) => HttpResponse::Created().json(category),
         Err(e) => {
             eprintln!("Error creating category: {:?}", e);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
+}
+
+#[get("categories")]
+pub async fn get_categories(pool: web::Data<MySqlPool>) -> HttpResponse {
+    let categories = Category::get_all_categories(&pool).await;
+    match categories {
+        Ok(categories) => HttpResponse::Ok().json(categories),
+        Err(e) => {
+            eprintln!("Error fetching categories: {:?}", e);
             HttpResponse::InternalServerError().finish()
         }
     }

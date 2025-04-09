@@ -43,6 +43,10 @@ async fn main() -> Result<(), std::io::Error> {
                     .service(routes::create_user)
                     .service(routes::get_users)
                     .service(routes::delete_user)
+                    .service(routes::create_category)
+                    .service(routes::get_categories)
+                    .service(routes::create_flipcard)
+
             )
     })
     .bind("127.0.0.1:8080")?

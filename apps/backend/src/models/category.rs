@@ -1,5 +1,6 @@
 use serde::Serialize;
 use sqlx::MySqlPool;
+use sqlx::Row;
 
 #[derive(Serialize)]
 pub struct Category {
@@ -38,5 +39,28 @@ impl Category {
             updated_at: time,
             creator_id,
         })
+    }
+
+    pub async fn get_all_categories(pool: &MySqlPool) -> Result<Vec<Self>, sqlx::Error> {
+        let rows = sqlx::query("SELECT * FROM categories")
+            .fetch_all(pool)
+            .await
+            .expect("Failed to fetch categories");
+
+        let mut categories = Vec::new();
+
+        for row in rows {
+            let category = Category {
+                id: row.get("id"),
+                name: row.get("name"),
+                description: row.get("description"),
+                created_at: row.get("created_at"),
+                updated_at: row.get("updated_at"),
+                creator_id: row.get("creator_id"),
+            };
+            categories.push(category);
+        }
+
+        Ok(categories)
     }
 }
